@@ -18,7 +18,9 @@ module.exports = {
     title: 'Welcome to Partner Central',
     siteUrl:
       process.env.GATSBY_SITE_URL ||
-      'http://dev-site-staging.mysites.netlify.com'
+      'http://dev-site-staging.mysites.netlify.com',
+    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
+    author: `@cazuba`
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
