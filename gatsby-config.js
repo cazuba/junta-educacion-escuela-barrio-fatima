@@ -1,3 +1,17 @@
+const processGatsbySiteUrl = process.env.GATSBY_SITE_URL || 'http://dev-site-staging.mysites.netlify.com'
+const processGatsbySiteUrlEnv = process.env.GATSBY_ENV || 'dev'
+
+const genRobotsPolicy = env => {
+  const policy = { userAgent: '*' }
+  if(env === 'prod') {
+    policy.allow = '/'
+  } else {
+    policy.disallow = '/'
+  }
+
+  return policy
+}
+
 module.exports = {
   siteMetadata: {
     title: `Gatsby Default Starter`,
@@ -27,8 +41,15 @@ module.exports = {
         icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
       },
     },
-    // this (optional) plugin enables Progressive Web App + Offline functionality
-    // To learn more, visit: https://gatsby.dev/offline
-    // `gatsby-plugin-offline`,
+    {
+      resolve: 'gatsby-plugin-robots-txt',
+      options: {
+        host: processGatsbySiteUrl,
+        sitemap: `${processGatsbySiteUrl}/sitemap.xml`,
+        policy: [genRobotsPolicy(processGatsbySiteUrlEnv)]
+      }
+    },
+    `gatsby-plugin-offline`,
+    'gatsby-plugin-sitemap'
   ],
 }
