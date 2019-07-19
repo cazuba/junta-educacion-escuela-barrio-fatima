@@ -1,5 +1,5 @@
 const processGatsbySiteUrl =
-  process.env.GATSBY_SITE_URL || 'http://dev-site-staging.mysites.netlify.com'
+  process.env.GATSBY_SITE_URL || 'https://gatsby-starter-boiler.netlify.com'
 const processGatsbySiteUrlEnv = process.env.GATSBY_ENV || 'dev'
 
 const genRobotsPolicy = env => {
@@ -18,7 +18,7 @@ module.exports = {
     title: 'Welcome to Partner Central',
     siteUrl:
       process.env.GATSBY_SITE_URL ||
-      'http://dev-site-staging.mysites.netlify.com',
+      'https://gatsby-starter-boiler.netlify.com',
     description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
     author: `@cazuba`
   },
