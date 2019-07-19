@@ -77,7 +77,6 @@
     "babel-preset-gatsby": "^0.2.6",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
-    "file-mock.js": "^24.8.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.8.0",
     "jest-environment-enzyme": "^7.0.2",
@@ -99,7 +98,7 @@
     "testRegex": "/.*(__tests__\\/.*)|(.*(test|spec))\\.jsx?$",
     "moduleNameMapper": {
       ".+\\.(css|styl|less|sass|scss)$": "identity-obj-proxy",
-      ".+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      ".+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/file-mock.js",
       "@_(.*)$": "<rootDir>/stories/_local/$1",
       "@components(.*)": "<rootDir>/src/components/$1",
       "@compositions(.*)": "<rootDir>/src/compositions/$1",
