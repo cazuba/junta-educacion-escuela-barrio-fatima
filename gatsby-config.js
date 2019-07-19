@@ -15,7 +15,7 @@ const genRobotsPolicy = env => {
 
 module.exports = {
   siteMetadata: {
-    title: 'Welcome to Partner Central',
+    title: 'Welcome to Gatsby Starter Boiler',
     siteUrl:
       process.env.GATSBY_SITE_URL ||
       'https://gatsby-starter-boiler.netlify.com',
