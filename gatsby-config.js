@@ -15,7 +15,7 @@ const genRobotsPolicy = env => {
 
 module.exports = {
   siteMetadata: {
-    title: 'Welcome to Gatsby Starter Boiler',
+    title: 'Junta Educación Escuela Barrio Fatima',
     siteUrl:
       process.env.GATSBY_SITE_URL ||
       'https://gatsby-starter-boiler.netlify.com',
@@ -29,6 +29,14 @@ module.exports = {
       options: {
         name: `images`,
         path: `${__dirname}/src/images`
+      }
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `data`,
+        path: `${__dirname}/src/data/`,
+        ignore: [`**/\.*`] // eslint-disable-line
       }
     },
     `gatsby-transformer-sharp`,
@@ -53,6 +61,17 @@ module.exports = {
         policy: [genRobotsPolicy(processGatsbySiteUrlEnv)]
       }
     },
+    {
+      resolve: 'gatsby-plugin-material-ui',
+      // If you want to use styled components you should change the injection order.
+      options: {
+        // stylesProvider: {
+        //   injectFirst: true,
+        // },
+      }
+    },
+    // If you want to use styled components you should add the plugin here.
+    // 'gatsby-plugin-styled-components',
     `gatsby-plugin-offline`,
     'gatsby-plugin-sitemap'
   ]

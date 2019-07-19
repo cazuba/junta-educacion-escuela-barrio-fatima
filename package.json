@@ -1,5 +1,5 @@
 {
-  "name": "gatsby-starter-boiler",
+  "name": "junta-educacion-escuela-barrio-fatima",
   "private": true,
   "description": "",
   "version": "0.2.0",
@@ -8,17 +8,20 @@
   },
   "author": "Carlos Zúñiga <krlos2290@gmail.com>",
   "keywords": [
+    "junta",
+    "educacion",
+    "escuela",
+    "fatima",
     "gatsby",
-    "boiler",
     "storybook"
   ],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/cazuba/gatsby-starter-boiler"
+    "url": "https://github.com/cazuba/junta-educacion-escuela-barrio-fatima"
   },
   "bugs": {
-    "url": "https://github.com/cazuba/gatsby-starter-boiler/issues"
+    "url": "https://github.com/cazuba/junta-educacion-escuela-barrio-fatima/issues"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,css}": [
@@ -46,10 +49,14 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "@material-ui/core": "^4.2.1",
+    "@material-ui/icons": "^4.2.1",
+    "@material-ui/styles": "^4.2.1",
     "gatsby": "^2.13.25",
     "gatsby-image": "^2.2.6",
     "gatsby-plugin-eslint": "^2.0.5",
     "gatsby-plugin-manifest": "^2.2.3",
+    "gatsby-plugin-material-ui": "^2.1.4",
     "gatsby-plugin-offline": "^2.2.4",
     "gatsby-plugin-react-helmet": "^3.1.2",
     "gatsby-plugin-robots-txt": "^1.5.0",
@@ -60,7 +67,8 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-helmet": "^5.2.1"
+    "react-helmet": "^5.2.1",
+    "typeface-roboto": "0.0.75"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
