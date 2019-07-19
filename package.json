@@ -1,9 +1,49 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "gatsby-starter-boiler",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
-  "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "description": "",
+  "version": "0.2.0",
+  "engines": {
+    "node": ">=10.16.0"
+  },
+  "author": "Carlos Zúñiga <krlos2290@gmail.com>",
+  "keywords": [
+    "gatsby",
+    "boiler",
+    "storybook"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cazuba/gatsby-starter-boiler"
+  },
+  "bugs": {
+    "url": "https://github.com/cazuba/gatsby-starter-boiler/issues"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,json,css}": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "pre-commit": [
+    "format",
+    "test"
+  ],
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "format": "prettier --write src/**/*.{js,jsx}",
+    "start": "npm run develop",
+    "serve": "gatsby serve",
+    "eslint": "eslint --fix 'src/**/*.js'",
+    "test": "jest -u",
+    "test:c": "jest --coverage -u",
+    "test:w": "jest --watch -u",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
   "dependencies": {
     "gatsby": "^2.13.25",
     "gatsby-image": "^2.2.6",
@@ -23,6 +63,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-optional-chaining": "^7.2.0",
     "@storybook/addon-actions": "^5.1.9",
     "@storybook/addon-console": "^1.1.1",
     "@storybook/addon-links": "^5.1.9",
@@ -30,27 +72,53 @@
     "@storybook/addons": "^5.1.9",
     "@storybook/react": "^5.1.9",
     "babel-loader": "^8.0.6",
-    "prettier": "^1.18.2"
+    "babel-preset-gatsby": "^0.2.6",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "file-mock.js": "^24.8.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^24.8.0",
+    "jest-environment-enzyme": "^7.0.2",
+    "jest-enzyme": "^7.0.2",
+    "lint-staged": "^9.2.0",
+    "prettier": "^1.18.2",
+    "prettier-eslint": "^9.0.0",
+    "react-test-renderer": "^16.8.6"
   },
-  "keywords": [
-    "gatsby"
-  ],
-  "license": "MIT",
-  "scripts": {
-    "build": "gatsby build",
-    "develop": "gatsby develop",
-    "format": "prettier --write src/**/*.{js,jsx}",
-    "start": "npm run develop",
-    "serve": "gatsby serve",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\"",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
-  },
-  "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+  "jest": {
+    "setupTestFrameworkScriptFile": "jest-enzyme",
+    "testEnvironment": "enzyme",
+    "testEnvironmentOptions": {
+      "enzymeAdapter": "react16"
+    },
+    "transform": {
+      "^.+\\.jsx?$": "<rootDir>/jest-preprocess.js"
+    },
+    "testRegex": "/.*(__tests__\\/.*)|(.*(test|spec))\\.jsx?$",
+    "moduleNameMapper": {
+      ".+\\.(css|styl|less|sass|scss)$": "identity-obj-proxy",
+      ".+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "@_(.*)$": "<rootDir>/stories/_local/$1",
+      "@components(.*)": "<rootDir>/src/components/$1",
+      "@compositions(.*)": "<rootDir>/src/compositions/$1",
+      "@hoc(.*)": "<rootDir>/src/hoc/$1",
+      "@styles(.*)": "<rootDir>/src/styles/$1",
+      "@modules(.*)": "<rootDir>/src/modules/$1",
+      "@static(.*)": "<rootDir>/src/static/$1"
+    },
+    "testPathIgnorePatterns": [
+      "node_modules",
+      ".cache"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(gatsby)/)"
+    ],
+    "globals": {
+      "__PATH_PREFIX__": ""
+    },
+    "testURL": "http://localhost",
+    "setupFiles": [
+      "<rootDir>/loadershim.js"
+    ]
   }
 }

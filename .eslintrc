@@ -1,0 +1,40 @@
+{
+  "parser": "babel-eslint",
+  "rules": {
+    "react/prop-types": "warn",
+    "react/no-unused-prop-types": "warn",
+    "react/sort-prop-types": [
+      "warn",
+      {
+        "callbacksLast": true,
+        "ignoreCase": true,
+        "requiredFirst": true,
+        "sortShapeProp": true,
+        "noSortAlphabetically": true
+      }
+    ],
+    "react/jsx-no-duplicate-props": ["warn", { "ignoreCase": true }],
+    "react/no-unused-state": "warn",
+    "react/require-default-props": [
+      "warn",
+      { "forbidDefaultForRequired": false }
+    ],
+    "eqeqeq": [0],
+    "no-useless-concat": [0],
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "import/no-nodejs-modules": ["error", { "allow": ["path", "fs"] }],
+    "jsx-ally/href-no-hash": "off",
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "comma-dangle": [
+      "warn",
+      {
+        "arrays": "never",
+        "objects": "never",
+        "imports": "never",
+        "exports": "never",
+        "functions": "ignore"
+      }
+    ]
+  },
+  "extends": ["react-app"]
+}
