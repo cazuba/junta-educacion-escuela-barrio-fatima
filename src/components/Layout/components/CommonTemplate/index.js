@@ -10,11 +10,9 @@ import Navigation from '@components/Navigation'
 import Menu from '@components/Menu'
 import Content from '../Content'
 
-// import LoadingProvider from '../../loadingProvider'
-
 const styles = () => ({})
 
-const Layout = ({ showBreadcrumbs, fullWidth, children }) => {
+const Layout = ({ showBreadcrumbs, fullWidth, children, ...rest }) => {
   const [isOpen, setIsOpen] = useState(false)
   return (
     <>
@@ -26,10 +24,18 @@ const Layout = ({ showBreadcrumbs, fullWidth, children }) => {
       <Navigation handleOpenDrawer={() => setIsOpen(true)} />
       <CssBaseline />
       {fullWidth ? (
-        <Content showBreadcrumbs={showBreadcrumbs} children={children} />
+        <Content
+          showBreadcrumbs={showBreadcrumbs}
+          children={children}
+          {...rest}
+        />
       ) : (
         <Container>
-          <Content showBreadcrumbs={showBreadcrumbs} children={children} />
+          <Content
+            showBreadcrumbs={showBreadcrumbs}
+            children={children}
+            {...rest}
+          />
         </Container>
       )}
     </>

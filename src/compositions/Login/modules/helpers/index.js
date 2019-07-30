@@ -1,4 +1,7 @@
+import { navigate } from 'gatsby'
 import * as Yup from 'yup'
+
+import { SENDING } from '@components/Notification'
 
 export const schema = Yup.object({
   email: Yup.string('Enter your email')
@@ -9,9 +12,11 @@ export const schema = Yup.object({
     .required('Enter your password')
 })
 
-export const onSubmit = (values, { setSubmitting }) => {
+export const onSubmit = (showMessage, hideMessage) => (values, { setStatus, setSubmitting }) => {
+  showMessage({ variant: SENDING, message: 'Sending...' })
   setTimeout(() => {
+    hideMessage()
     alert(JSON.stringify(values, null, 2))
-    setSubmitting(false)
+    navigate('/orders')
   }, 400)
 }

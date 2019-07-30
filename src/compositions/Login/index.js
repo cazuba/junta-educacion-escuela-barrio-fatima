@@ -1,33 +1,22 @@
 import React, { useContext } from 'react'
 import { Formik } from 'formik'
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
-import { makeStyles } from '@material-ui/core/styles'
+import { Button, TextField } from '@material-ui/core'
 
 // contexts
 import { NotificationsContext } from '@contexts/Notifications'
 
 // modules
+import { useCommonStyles } from '@modules/formik'
 import { schema, onSubmit } from './modules/helpers'
 
-const useStyles = makeStyles(theme => ({
-  form: {
-    width: '100%'
-  },
-  textField: {
-    height: '68px',
-    marginBottom: theme.spacing(2)
-  }
-}))
-
 const Login = props => {
-  const { showMessage } = useContext(NotificationsContext)
-  const classes = useStyles(props)
+  const { showMessage, hideMessage } = useContext(NotificationsContext)
+  const classes = useCommonStyles(props)
   return (
     <Formik
-      initialValues={{ email: '', password: '' }}
+      initialValues={{ email: 'a@b.com', password: '12345678' }}
       validationSchema={schema}
-      onSubmit={onSubmit}
+      onSubmit={onSubmit(showMessage, hideMessage)}
     >
       {({
         values,
@@ -46,7 +35,7 @@ const Login = props => {
             name="email"
             helperText={touched.email ? errors.email : ''}
             error={touched.email && Boolean(errors.email)}
-            label="Email / Username"
+            label="Email"
             fullWidth
             value={values.email}
             onChange={handleChange}
@@ -71,11 +60,9 @@ const Login = props => {
             variant="contained"
             color="primary"
             disabled={isSubmitting}
-            onClick={() => showMessage({ message: 'test' })}
           >
             Login
           </Button>
-          {/* <Snackbar variant={status.css} message={status.message} /> */}
         </form>
       )}
     </Formik>

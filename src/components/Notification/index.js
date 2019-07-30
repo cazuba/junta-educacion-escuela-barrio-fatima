@@ -1,20 +1,24 @@
 import React, { useContext } from 'react'
 import { bool, node, oneOf } from 'prop-types'
 import clsx from 'clsx'
-import CheckCircleIcon from '@material-ui/icons/CheckCircle'
-import ErrorIcon from '@material-ui/icons/Error'
-import InfoIcon from '@material-ui/icons/Info'
-import CloseIcon from '@material-ui/icons/Close'
+import Typography from '@material-ui/core/Typography'
 import green from '@material-ui/core/colors/green'
 import amber from '@material-ui/core/colors/amber'
 import IconButton from '@material-ui/core/IconButton'
 import Snackbar from '@material-ui/core/Snackbar'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
-import WarningIcon from '@material-ui/icons/Warning'
 import { makeStyles } from '@material-ui/core/styles'
+import CheckCircleIcon from '@material-ui/icons/CheckCircle'
+import ErrorIcon from '@material-ui/icons/Error'
+import InfoIcon from '@material-ui/icons/Info'
+import CloseIcon from '@material-ui/icons/Close'
+import WarningIcon from '@material-ui/icons/Warning'
 
 // contexts
 import { NotificationsContext } from '@contexts/Notifications'
+
+// components
+import Loader from '@components/Loader'
 
 export const SUCCESS = 'success'
 export const WARNING = 'warning'
@@ -84,10 +88,21 @@ const Notification = ({
         aria-describedby="client-snackbar"
         message={
           <span id="client-snackbar" className={classes.message}>
-            {showIcon && (
-              <Icon className={clsx(classes.icon, classes.iconVariant)} />
+            {variant === SENDING ? (
+              <>
+                <Loader />
+                <Typography variant="body2" style={{ marginLeft: '10px' }}>
+                  {message}
+                </Typography>
+              </>
+            ) : (
+              <>
+                {showIcon && (
+                  <Icon className={clsx(classes.icon, classes.iconVariant)} />
+                )}
+                {message}
+              </>
             )}
-            {message}
           </span>
         }
         action={[

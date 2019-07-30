@@ -15,7 +15,7 @@ export const getMainMenu = () => [
   {
     displayName: 'Archivo de Ordenes',
     icon: <ListOrders />,
-    url: '/archive'
+    url: '/orders'
   }
 ]
 export const getModules = () => [

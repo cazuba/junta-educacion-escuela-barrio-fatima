@@ -1,34 +1,50 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Link } from 'gatsby'
-import { node, bool } from 'prop-types'
+import { node, bool, array } from 'prop-types'
+import { MuiPickersUtilsProvider } from '@material-ui/pickers'
+import DateFnsUtils from '@date-io/dayjs'
 
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
+import Box from '@material-ui/core/Box'
 import Breadcrumbs from '@material-ui/core/Breadcrumbs'
 
-const Content = ({ showBreadcrumbs, children }) => (
-  <Grid container direction="column" spacing={1}>
-    {showBreadcrumbs && (
-      <Grid item mb={3} ml={3}>
-        <Breadcrumbs aria-label="Breadcrumb">
-          <Link color="inherit" to="/">
-            Home
-          </Link>
-          <Typography color="textPrimary">Internal</Typography>
-        </Breadcrumbs>
-      </Grid>
-    )}
-    <Grid item>{children}</Grid>
-  </Grid>
+const Content = ({ showBreadcrumbs, breadcrumbs, children }) => (
+  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    <Grid container direction="column">
+      {showBreadcrumbs && (
+        <Grid item>
+          <Box mt={2}>
+            <Breadcrumbs aria-label="Breadcrumb">
+              {breadcrumbs.map((item, index) => (
+                <Fragment key={index}>
+                  {index < breadcrumbs.length - 1 ? (
+                    <Link color="inherit" to={item.url}>
+                      {item.text}
+                    </Link>
+                  ) : (
+                    <Typography color="textPrimary">{item.text}</Typography>
+                  )}
+                </Fragment>
+              ))}
+            </Breadcrumbs>
+          </Box>
+        </Grid>
+      )}
+      <Grid item>{children}</Grid>
+    </Grid>
+  </MuiPickersUtilsProvider>
 )
 
 Content.propTypes = {
   children: node.isRequired,
-  showBreadcrumbs: bool
+  showBreadcrumbs: bool,
+  breadcrumbs: array
 }
 
 Content.defaultProps = {
-  showBreadcrumbs: true
+  showBreadcrumbs: true,
+  breadcrumbs: []
 }
 
 export default Content

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'gatsby'
+import Box from '@material-ui/core/Box'
 
 import Login from '@compositions/Login'
 import Layout, { LOGIN_TEMPLATE } from '@components/Layout'
@@ -13,7 +14,11 @@ const IndexPage = () => (
       <Logo />
     </div>
     <Login />
-    <Link to="/page-2/">Go to page 2</Link>
+    <Box py={2}>
+      <Link variant="button" to="/forgot">
+        Olvidaste la contraseña?
+      </Link>
+    </Box>
   </Layout>
 )
 
