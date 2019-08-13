@@ -20,7 +20,6 @@ export const useCommonStyles = makeStyles(theme => ({
   },
   repetitiveGroup: {
     padding: theme.spacing(1),
-    // paddingTop: theme.spacing(4),
     paddingBottom: 0,
     marginBottom: theme.spacing(2),
     width: '100%'

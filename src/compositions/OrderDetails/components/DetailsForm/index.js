@@ -344,7 +344,6 @@ const DetailsForm = ({ id, ...props }) => {
                                     setFieldValue,
                                     handleChange
                                   )}
-                                  // onBlur={handleBlur}
                                   variant="outlined"
                                   margin="dense"
                                 />
@@ -427,10 +426,10 @@ const DetailsForm = ({ id, ...props }) => {
                               onClick={handleClick(
                                 () => {
                                   remove(index)
+                                  values.items && delete values.items[index]
+                                  calculateTotals(values, setFieldValue)
                                 },
-                                () => {
-                                  insert(index + 1, ItemModel)
-                                }
+                                () => insert(index + 1, ItemModel)
                               )}
                             >
                               <MoreVertIcon />
