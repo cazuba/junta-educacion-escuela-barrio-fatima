@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { node, bool } from 'prop-types'
 
 import Container from '@material-ui/core/Container'
-import CssBaseline from '@material-ui/core/CssBaseline'
 import withStyles from '@material-ui/core/styles/withStyles'
 
 // components
@@ -22,7 +21,6 @@ const Layout = ({ showBreadcrumbs, fullWidth, children, ...rest }) => {
         handleOpenDrawer={() => setIsOpen(true)}
       />
       <Navigation handleOpenDrawer={() => setIsOpen(true)} />
-      <CssBaseline />
       {fullWidth ? (
         <Content
           showBreadcrumbs={showBreadcrumbs}

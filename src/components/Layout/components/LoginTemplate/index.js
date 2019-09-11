@@ -3,7 +3,6 @@ import { useStaticQuery, graphql } from 'gatsby'
 import { node, object } from 'prop-types'
 import Box from '@material-ui/core/Box'
 import Container from '@material-ui/core/Container'
-import CssBaseline from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
@@ -35,7 +34,6 @@ const LayoutAuth = ({ classes, children }) => {
   return (
     <Container maxWidth="xs" mx="auto" className={classes.layoutWrapper}>
       <Box mt={3}>
-        <CssBaseline />
         <Paper>
           <Box p={3}>
             <Grid container justify="center" alignItems="center">
