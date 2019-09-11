@@ -38,7 +38,7 @@ export const onSubmit = (showMessage, hideMessage) => (
       setStatus(false)
       if (
         status === HTTP_STATUS.UNAUTHORIZED ||
-        data.code === ERROR_CODES.InvalidCredentials
+        data.code === ERROR_CODES.InvalidCredentialsError
       ) {
         message = 'Invalid email and/or password'
       }

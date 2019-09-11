@@ -20,6 +20,7 @@ export default {
   InvalidHeaderError: BAD_REQUEST,
   InvalidVersionError: BAD_REQUEST,
   RequestExpiredError: BAD_REQUEST,
+
   // 401
   UnauthorizedError: UNAUTHORIZED,
   InvalidCredentialsError: UNAUTHORIZED,
