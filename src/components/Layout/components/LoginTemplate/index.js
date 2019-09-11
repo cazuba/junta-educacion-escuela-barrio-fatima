@@ -1,24 +1,25 @@
 import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
-import { node, object } from 'prop-types'
+import { node } from 'prop-types'
 import Box from '@material-ui/core/Box'
 import Container from '@material-ui/core/Container'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
-import withStyles from '@material-ui/core/styles/withStyles'
+import { makeStyles } from '@material-ui/core/styles'
 
 // components
 import Logo from '@components/Logo'
 
-const styles = () => ({
+const useStyles = makeStyles(() => ({
   layoutWrapper: {
     position: 'relative'
   }
-})
+}))
 
-const LayoutAuth = ({ classes, children }) => {
+const LayoutAuth = ({ children }) => {
+  const classes = useStyles()
   const { site } = useStaticQuery(
     graphql`
       query {
@@ -66,8 +67,7 @@ const LayoutAuth = ({ classes, children }) => {
 }
 
 LayoutAuth.propTypes = {
-  children: node.isRequired,
-  classes: object.isRequired
+  children: node.isRequired
 }
 
-export default withStyles(styles)(LayoutAuth)
+export default LayoutAuth

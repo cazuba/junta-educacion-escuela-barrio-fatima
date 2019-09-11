@@ -23,7 +23,19 @@ module.exports = {
     author: `@cazuba`
   },
   plugins: [
-    `gatsby-plugin-react-helmet`,
+    'gatsby-plugin-react-helmet',
+    'gatsby-transformer-sharp',
+    'gatsby-plugin-sharp',
+    {
+      resolve: 'gatsby-plugin-material-ui',
+      // If you want to use styled components you should change the injection order.
+      options: {
+        stylesProvider: {
+          injectFirst: true
+        }
+      }
+    },
+    // 'gatsby-plugin-styled-components',
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -39,8 +51,6 @@ module.exports = {
         ignore: [`**/\.*`] // eslint-disable-line
       }
     },
-    `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
@@ -59,15 +69,6 @@ module.exports = {
         host: processGatsbySiteUrl,
         sitemap: `${processGatsbySiteUrl}/sitemap.xml`,
         policy: [genRobotsPolicy(processGatsbySiteUrlEnv)]
-      }
-    },
-    {
-      resolve: 'gatsby-plugin-material-ui',
-      // If you want to use styled components you should change the injection order.
-      options: {
-        // stylesProvider: {
-        //   injectFirst: true,
-        // },
       }
     },
     // If you want to use styled components you should add the plugin here.
