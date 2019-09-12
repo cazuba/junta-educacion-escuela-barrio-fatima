@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { func } from 'prop-types'
-import { Link, navigate } from 'gatsby'
+import { Link } from 'gatsby'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -10,6 +10,9 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import MenuIcon from '@material-ui/icons/Menu'
 import AccountCircle from '@material-ui/icons/AccountCircle'
+
+// modules
+import Router from '@modules/router'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,7 +33,7 @@ const handleMenu = cb => event => {
 }
 
 const handleClose = (link = '', cb = () => null) => () => {
-  link && navigate(link)
+  link && Router.go(link)
   cb(null)
 }
 

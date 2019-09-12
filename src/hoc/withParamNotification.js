@@ -6,7 +6,7 @@ import Notification from '@components/Notification'
 
 // modules
 import ParamNotification from '@modules/paramNotification'
-import { navigate } from 'gatsby'
+import Router from '@modules/router'
 
 export default function(WrappedComponent) {
   return function(props) {
@@ -29,7 +29,7 @@ export default function(WrappedComponent) {
             hideOnClickAway={false}
             hideMessage={() => {
               setShow(false)
-              pathname && navigate(pathname)
+              pathname && Router.go(pathname)
             }}
             {...notification}
           />

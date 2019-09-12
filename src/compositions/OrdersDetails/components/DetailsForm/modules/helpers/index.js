@@ -1,7 +1,10 @@
-import { navigate } from 'gatsby'
 import * as Yup from 'yup'
 
+// components
 import { SENDING } from '@components/Notification'
+
+// modules
+import Router from '@modules/router'
 
 export const schema = Yup.object({
   orderId: Yup.string('N. Order')
@@ -22,7 +25,6 @@ export const onSubmit = (showMessage, hideMessage) => (
   showMessage({ variant: SENDING, message: 'Sending...' })
   setTimeout(() => {
     hideMessage()
-    console.log(values)
-    navigate('/orders')
+    Router.go('/orders')
   }, 600)
 }

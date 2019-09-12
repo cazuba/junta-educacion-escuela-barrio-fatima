@@ -1,6 +1,5 @@
 import React from 'react'
 import { bool, func } from 'prop-types'
-import { navigate } from 'gatsby'
 import List from '@material-ui/core/List'
 import Divider from '@material-ui/core/Divider'
 import ListItem from '@material-ui/core/ListItem'
@@ -11,6 +10,7 @@ import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 
 // modules
 import { isIOS } from '@modules/ios'
+import Router from '@modules/router'
 import { getMainMenu, getModules } from './modules/helpers'
 
 const drawerWidth = 240
@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
 
 const renderList = list =>
   list.map((item, index) => (
-    <ListItem button key={index} onClick={() => navigate(item.url)}>
+    <ListItem button key={index} onClick={() => Router.go(item.url)}>
       <ListItemIcon>{item.icon}</ListItemIcon>
       <ListItemText primary={item.displayName} />
     </ListItem>
