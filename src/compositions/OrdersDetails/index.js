@@ -32,7 +32,7 @@ const renderElement = (classes, id) => (
   </Paper>
 )
 
-const OrderDetails = ({ id, withLayout }) => {
+const OrdersDetails = ({ id, withLayout }) => {
   const classes = useStyles()
   return withLayout ? (
     <Layout
@@ -49,14 +49,14 @@ const OrderDetails = ({ id, withLayout }) => {
     renderElement(classes, id)
   )
 }
-OrderDetails.propTypes = {
+OrdersDetails.propTypes = {
   id: oneOfType([number, string]),
   withLayout: bool
 }
 
-OrderDetails.defaultProps = {
+OrdersDetails.defaultProps = {
   id: null,
   withLayout: true
 }
 
-export default OrderDetails
+export default OrdersDetails

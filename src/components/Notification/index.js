@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { bool, node, oneOf } from 'prop-types'
+import { bool, node, oneOf, func } from 'prop-types'
 import clsx from 'clsx'
 import Typography from '@material-ui/core/Typography'
 import green from '@material-ui/core/colors/green'
@@ -64,13 +64,15 @@ const Notification = ({
   message,
   variant,
   hideOnClickAway,
+  hideMessage,
   ...rest
 }) => {
   const classes = useStyles(rest)
   const Icon = variantIcon[variant]
-  const { hideMessage } = useContext(NotificationsContext)
+  const { hideMessage: contextHideMessage } = useContext(NotificationsContext)
   function handleClose() {
-    hideMessage()
+    hideMessage && hideMessage()
+    contextHideMessage && contextHideMessage()
   }
 
   return (
@@ -125,14 +127,16 @@ Notification.propTypes = {
   hideOnClickAway: bool,
   message: node,
   showIcon: bool,
-  variant: oneOf([SUCCESS, WARNING, ERROR, INFO, SENDING])
+  variant: oneOf([SUCCESS, WARNING, ERROR, INFO, SENDING]),
+  hideMessage: func
 }
 
 Notification.defaultProps = {
   variant: INFO,
   showIcon: true,
   hideOnClickAway: true,
-  message: ''
+  message: '',
+  hideMessage: () => null
 }
 
 export default Notification

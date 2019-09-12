@@ -2,14 +2,17 @@ import React from 'react'
 import { Router } from '@reach/router'
 
 // components
-import OrdersList from '@compositions/OrdersList'
-import OrderDetails from '@compositions/OrderDetails'
+import OrdersIndex from '@compositions/OrdersIndex'
+import OrdersDetails from '@compositions/OrdersDetails'
 
-const LeadsPage = () => (
+// modules
+import withSession from '../hoc/withSession'
+
+const OrdersPages = () => (
   <Router>
-    <OrdersList path="/orders" />
-    <OrderDetails path="/orders/:id" />
+    <OrdersIndex path="/orders" />
+    <OrdersDetails path="/orders/:id" />
   </Router>
 )
 
-export default LeadsPage
+export default withSession(OrdersPages)

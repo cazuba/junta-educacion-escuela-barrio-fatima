@@ -1,16 +1,17 @@
 import Env from '../env'
 import Cookie from '../cookie'
 import { secondsToDays, secondsToMilliseconds } from '../time'
+import { SESSION_EXPIRED } from '../paramNotification'
 
 const SSR_NOT_IMPLEMENTED_CB = cb => cb('SS not implemented yet.', null)
 
 export default class Auth {
   static getToken(cb = () => null) {
-    Auth.isAuthenticated((_, token) => {
+    Cookie.get(process.env['GATSBY_COOKIE_NAME'], (_, token) => {
       if (token && token.accessToken) {
         if (Auth.isValid(token)) return cb(null, token.accessToken)
       }
-      return cb('Login required.')
+      return cb(SESSION_EXPIRED)
     })
   }
   static isValid(token) {
@@ -18,13 +19,19 @@ export default class Auth {
   }
 
   // Is Authentitcated
-  static __clientIsAuth(cb = () => null) {
-    Cookie.get(process.env['GATSBY_COOKIE_NAME'], cb)
+  static __clientIsAuth(cb) {
+    const callback = cb
+      ? (err, token) => {
+          cb(err, !err && token && Auth.isValid(token))
+        }
+      : null
+    const token = Cookie.get(process.env['GATSBY_COOKIE_NAME'], callback)
+    return Auth.isValid(token)
   }
   static __serverIsAuth(cb) {
-    SSR_NOT_IMPLEMENTED_CB(cb)
+    return SSR_NOT_IMPLEMENTED_CB(cb)
   }
-  static isAuth(cb = () => null) {
+  static isAuth(cb) {
     return Env.isClient() ? Auth.__clientIsAuth(cb) : Auth.__serverIsAuth(cb)
   }
 
@@ -69,7 +76,9 @@ export default class Auth {
     SSR_NOT_IMPLEMENTED_CB(cb)
   }
   static clearSession(cb = () => {}) {
-    Env.isClient() ? Auth.__clientClearSession(cb) : Auth.__serverClearSession(cb)
+    Env.isClient()
+      ? Auth.__clientClearSession(cb)
+      : Auth.__serverClearSession(cb)
   }
 
   // logout
