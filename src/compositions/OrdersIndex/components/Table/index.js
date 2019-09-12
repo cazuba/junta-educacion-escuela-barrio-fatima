@@ -1,5 +1,4 @@
 import React from 'react'
-import { navigate } from 'gatsby'
 import clsx from 'clsx'
 import { string, number, func } from 'prop-types'
 import { lighten, makeStyles } from '@material-ui/core/styles'
@@ -20,6 +19,9 @@ import {
   Typography,
   NoSsr
 } from '@material-ui/core'
+
+// modules
+import Router from '@modules/router'
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein }
@@ -309,7 +311,7 @@ export default function EnhancedTable() {
                     <TableRow
                       hover
                       // onClick={event => handleClick(event, row.name)}
-                      onClick={() => navigate(`/orders/${index + 1}`)}
+                      onClick={() => Router.go(`/orders/${index + 1}`)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}

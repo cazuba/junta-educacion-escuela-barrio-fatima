@@ -5,7 +5,9 @@ import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Create'
 import PasswordIcon from '@material-ui/icons/VpnKey'
 import DeleteIcon from '@material-ui/icons/Delete'
-import { navigate } from 'gatsby';
+
+// modules
+import Router from '@modules/router'
 
 const CHANGE_PASSWORD_BASE_URL = '/users/id/security'
 const EDIT_PROFILE_BASE_URL = '/users/id/general'
@@ -20,13 +22,13 @@ const EnhancedTableActions = ({
   const editUrl = editParamUrl.replace(/id/g, id)
   return (
     <div style={{ display: 'flex', alignItems: 'space-around' }}>
-      <Tooltip title="Change Password" onClick={() => navigate(changePasswordUrl)}>
+      <Tooltip title="Change Password" onClick={() => Router.go(changePasswordUrl)}>
         <IconButton aria-label="Delete">
           <PasswordIcon />
         </IconButton>
       </Tooltip>
       <Tooltip title="Edit Profile">
-        <IconButton aria-label="Delete" onClick={() => navigate(editUrl)}>
+        <IconButton aria-label="Delete" onClick={() => Router.go(editUrl)}>
           <EditIcon />
         </IconButton>
       </Tooltip>
