@@ -3,7 +3,8 @@ import Cookie from '../cookie'
 import { secondsToDays, secondsToMilliseconds } from '../time'
 import { SESSION_EXPIRED } from '../paramNotification'
 
-const SSR_NOT_IMPLEMENTED_CB = cb => cb('SS not implemented yet.', null)
+const SSR_NOT_IMPLEMENTED_CB = cb =>
+  (cb && cb('SS not implemented yet.', null)) || false
 
 export default class Auth {
   static getToken(cb = () => null) {
