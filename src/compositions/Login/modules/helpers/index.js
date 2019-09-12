@@ -1,4 +1,3 @@
-import { navigate } from 'gatsby'
 import * as Yup from 'yup'
 
 // components
@@ -10,6 +9,7 @@ import Api from '@modules/api'
 import Auth from '@modules/auth'
 import HTTP_STATUS from '@modules/httpStatus'
 import ERROR_CODES from '@modules/errorCode'
+import Router from '@modules/router'
 
 export const schema = Yup.object({
   email: Yup.string('Enter your email')
@@ -63,7 +63,7 @@ export const onSubmit = (showMessage, hideMessage) => (
         message: 'Redirecting...'
       })
       setTimeout(() => {
-        navigate('/orders')
+        Router.go('/orders')
       }, 500)
     })
   })
