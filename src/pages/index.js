@@ -10,10 +10,10 @@ import SEO from '@components/Seo'
 
 // modules
 import withParamNotification from '@hoc/withParamNotification'
+import { any } from 'prop-types'
 
-const IndexPage = () => (
-  <Layout template={LOGIN_TEMPLATE}>
-    <SEO title="Home" />
+const Content = withParamNotification(() => (
+  <>
     <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
       <Logo />
     </div>
@@ -26,7 +26,18 @@ const IndexPage = () => (
         Entrar
       </Link>
     </Box>
+  </>
+))
+
+const IndexPage = ({ location }) => (
+  <Layout template={LOGIN_TEMPLATE}>
+    <SEO title="Home" />
+    <Content location={location} />
   </Layout>
 )
 
-export default withParamNotification(IndexPage)
+IndexPage.propTypes = {
+  location: any.isRequired
+}
+
+export default IndexPage

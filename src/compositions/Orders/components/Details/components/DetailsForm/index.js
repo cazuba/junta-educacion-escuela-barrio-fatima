@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { number, string, oneOfType } from 'prop-types'
 import { Formik, Form, FieldArray } from 'formik'
 import {
@@ -15,9 +15,7 @@ import {
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import AddIcon from '@material-ui/icons/AddCircle'
 import RemoveIcon from '@material-ui/icons/RemoveCircle'
-
-// contexts
-import { NotificationsContext } from '@contexts/Notifications'
+import { useSnackbar } from 'notistack'
 
 // components
 import DateTime from '@components/DateTime'
@@ -38,7 +36,7 @@ const ItemModel = {
 }
 
 const DetailsForm = ({ id, ...props }) => {
-  const { showMessage, hideMessage } = useContext(NotificationsContext)
+  const { showMessage, hideMessage } = useSnackbar()
   const model = {
     orderId: id,
     date: new Date(),

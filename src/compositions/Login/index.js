@@ -1,22 +1,20 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Formik } from 'formik'
 import { Button, TextField } from '@material-ui/core'
-
-// contexts
-import { NotificationsContext } from '@contexts/Notifications'
+import { useSnackbar } from 'notistack'
 
 // modules
 import { useCommonStyles } from '@modules/formik'
 import { schema, onSubmit } from './modules/helpers'
 
 const Login = props => {
-  const { showMessage, hideMessage } = useContext(NotificationsContext)
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const classes = useCommonStyles(props)
   return (
     <Formik
       initialValues={{ email: 'a@b.com', password: '12345678' }}
       validationSchema={schema}
-      onSubmit={onSubmit(showMessage, hideMessage)}
+      onSubmit={onSubmit(enqueueSnackbar, closeSnackbar)}
     >
       {({
         values,
