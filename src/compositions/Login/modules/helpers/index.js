@@ -23,9 +23,9 @@ export const onSubmit = (showMessage, hideMessage) => (
   { setStatus, setSubmitting }
 ) => {
   const msgId = showMessage('Sending...', { variant: SENDING })
-  const login = new Api(SESSION_ENDPOINT)
-  const payload = { payload: { ...values } }
-  login.post('', payload, (err, response) => {
+  const login = new Api()
+  const payload = { payload: values }
+  login.post(SESSION_ENDPOINT, payload, (err, response) => {
     hideMessage(msgId)
     if (err) {
       const { response } = err

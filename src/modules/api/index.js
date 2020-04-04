@@ -16,6 +16,7 @@ const _getHeaders = (headers = {}) => ({
 export default class Api {
   constructor(endpoint = '') {
     this.apiUrl = `${process.env['GATSBY_API_URL']}${endpoint}`
+    this.__cancelSource = { cancel: () => null, token: null }
   }
   /**
    * Authorize API headers using Cookies module
@@ -32,6 +33,13 @@ export default class Api {
     })
   }
 
+  __newCancelToken() {
+    const CancelToken = axios.CancelToken
+    const source = CancelToken.source()
+    this.__cancelSource = source
+    return source.token
+  }
+
   /**
    * Call AJAX provider for API requests
    * @param {string} _method GET || POST || DELETE || PUT
@@ -43,7 +51,8 @@ export default class Api {
         return axios({
           method,
           ...config,
-          headers: _getHeaders(config.headers)
+          headers: _getHeaders(config.headers),
+          cancelToken: this.__newCancelToken()
         })
           .then(res => cb(null, res))
           .catch(err => cb(err))
@@ -73,6 +82,9 @@ export default class Api {
       })
     })
   }
+  cancelRequest() {
+    return this.__cancelSource.cancel('Operation canceled by the user.')
+  }
   /**
    * GET API method
    * @param {string} path
@@ -80,8 +92,8 @@ export default class Api {
    * @param {function cb() {}} cb
    * @param {object} config
    */
-  get(path, data = {}, cb = () => null, config = {}) {
-    this.__execute('get', path, data, cb, config)
+  get(path, config = {}, cb = () => null) {
+    this.__execute('get', path, null, cb, config)
   }
   /**
    * GET API method (RESOURCE - using id as resource)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { number, string, oneOfType } from 'prop-types'
 import { Formik, Form, FieldArray } from 'formik'
 import {
@@ -38,7 +38,7 @@ const ItemModel = {
 const DetailsForm = ({ id, ...props }) => {
   const { showMessage, hideMessage } = useSnackbar()
   const model = {
-    orderId: id,
+    orderId: 0,
     date: new Date(),
     name: 'Order Test',
     condition: 'Proforma',
@@ -51,8 +51,8 @@ const DetailsForm = ({ id, ...props }) => {
   }
   const classes = useCommonStyles(props)
 
-  const [anchorEl, setAnchorEl] = React.useState(null)
-  const [onCallbackFns, setOnCallbackFns] = React.useState(() => null)
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [onCallbackFns, setOnCallbackFns] = useState(() => null)
   const open = Boolean(anchorEl)
 
   function handleClick(onRemove, onAdd) {

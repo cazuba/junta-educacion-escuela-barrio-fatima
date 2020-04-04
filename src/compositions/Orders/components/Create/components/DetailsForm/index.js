@@ -29,6 +29,7 @@ const FIXED_FEES = 0.13
 const ItemModel = {
   quantity: 0,
   unit: '',
+  description: '',
   exempt: false,
   unitprice: 0,
   totalvalue: 0
@@ -41,7 +42,6 @@ const DetailsForm = props => {
     date: new Date(),
     name: null,
     condition: null,
-    description: null,
     items: [ItemModel],
     subtotal: 0,
     discount: 0,
@@ -81,7 +81,11 @@ const DetailsForm = props => {
       fees += imp_amount
       return accumulate + curr.totalvalue
     }, 0)
-    const total = subtotal + fees
+    subtotal = subtotal < 0 ? 0 : subtotal
+    fees = fees < 0 ? 0 : fees
+    let total = subtotal + fees
+    total = total - (values.discount || 0)
+    total = total < 0 ? 0 : total
     setFieldValue('subtotal', useFormat(subtotal, MONEY))
     setFieldValue('fees', useFormat(fees, MONEY))
     setFieldValue('total', useFormat(total, MONEY))
@@ -131,6 +135,19 @@ const DetailsForm = props => {
   function handleChangeCheckbox(values, index, setFieldValue, handleChange) {
     return function(event, checked) {
       values.items[index].exempt = checked
+      calculateTotals(values, setFieldValue)
+      return handleChange(event)
+    }
+  }
+
+  function handleChangeDiscount(
+    values,
+    setFieldValue,
+    handleChange
+  ) {
+    return function(event) {
+      const { value } = event.target || {}
+      values.discount = value
       calculateTotals(values, setFieldValue)
       return handleChange(event)
     }
@@ -514,8 +531,18 @@ const DetailsForm = props => {
                   min: 0
                 }}
                 value={values.discount}
-                onChange={handleChange}
-                onBlur={handleBlur}
+                // onChange={handleChange}
+                onChange={handleChangeDiscount(
+                  values,
+                  setFieldValue,
+                  handleChange
+                )}
+                onBlur={handleChangeDiscount(
+                  values,
+                  setFieldValue,
+                  handleBlur
+                )}
+                // onBlur={handleBlur}
                 variant="outlined"
                 margin="dense"
                 placeholder="0"
