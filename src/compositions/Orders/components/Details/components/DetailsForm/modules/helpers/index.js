@@ -1,9 +1,9 @@
 import * as Yup from 'yup'
 
 // components
-import { SENDING } from '@components/Notification'
 
 // modules
+import { SENDING } from '@modules/constants'
 import Router from '@modules/router'
 
 export const schema = Yup.object({

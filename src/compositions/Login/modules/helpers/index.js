@@ -1,9 +1,7 @@
 import * as Yup from 'yup'
 
-// components
-import { SENDING, ERROR, SUCCESS } from '@components/Notification'
-
 // modules
+import { SENDING, ERROR, SUCCESS } from '@modules/constants'
 import { SESSION_ENDPOINT } from '@modules/endpoints'
 import Api from '@modules/api'
 import Auth from '@modules/auth'
@@ -24,11 +22,11 @@ export const onSubmit = (showMessage, hideMessage) => (
   values,
   { setStatus, setSubmitting }
 ) => {
-  showMessage({ variant: SENDING, message: 'Sending...' })
-  const login = new Api(SESSION_ENDPOINT)
-  const payload = { payload: { ...values } }
-  login.post('', payload, (err, response) => {
-    hideMessage()
+  const msgId = showMessage('Sending...', { variant: SENDING })
+  const login = new Api()
+  const payload = { payload: values }
+  login.post(SESSION_ENDPOINT, payload, (err, response) => {
+    hideMessage(msgId)
     if (err) {
       const { response } = err
       const { status, data } = response || { status: 500, data: {} }
@@ -42,25 +40,21 @@ export const onSubmit = (showMessage, hideMessage) => (
       ) {
         message = 'Invalid email and/or password'
       }
-      showMessage({
-        variant: ERROR,
-        message
+      showMessage(message, {
+        variant: ERROR
       })
       return false
     }
     Auth.setAuthenticated(response.data, err => {
       if (err) {
         console.error(err)
-        showMessage({
-          variant: ERROR,
-          message:
-            'There was an error configuring cookies for your session. Please allow/unblock our cookies then try again.'
+        showMessage('There was an error configuring cookies for your session. Please allow/unblock our cookies then try again.', {
+          variant: ERROR
         })
         return false
       }
-      showMessage({
-        variant: SUCCESS,
-        message: 'Redirecting...'
+      showMessage('Redirecting...', {
+        variant: SUCCESS
       })
       setTimeout(() => {
         Router.go('/orders')
