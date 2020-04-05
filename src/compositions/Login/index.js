@@ -12,7 +12,7 @@ const Login = props => {
   const classes = useCommonStyles(props)
   return (
     <Formik
-      initialValues={{ email: 'a@b.com', password: '12345678' }}
+      initialValues={{ email: '', password: '' }}
       validationSchema={schema}
       onSubmit={onSubmit(enqueueSnackbar, closeSnackbar)}
     >

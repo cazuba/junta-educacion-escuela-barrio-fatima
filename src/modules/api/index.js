@@ -8,7 +8,7 @@ const JSON_HEADER = 'application/json'
 
 const _getHeaders = (headers = {}) => ({
   ...headers,
-  // crossDomain: true,
+  crossDomain: true,
   'Content-Type': headers['Content-Type'] || JSON_HEADER,
   Accept: headers['Accept'] || JSON_HEADER
 })
