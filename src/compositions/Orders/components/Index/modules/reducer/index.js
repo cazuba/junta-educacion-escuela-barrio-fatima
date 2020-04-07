@@ -11,7 +11,7 @@ import {
 export default function reducer(state, action) {
   switch (action.type) {
     case STATE_INIT:
-    return { ...initialState, refetch: action.payload }
+    return { ...initialState, ...state, refetch: action.payload }
     case STATE_FETCHING:
     const { filters, cancel } = action.payload || {}
     return { ...initialState, ...state, cancelled: false, error: null, loading: true, cancel, meta: { ...initialState.meta, ...state.meta, ...filters } }

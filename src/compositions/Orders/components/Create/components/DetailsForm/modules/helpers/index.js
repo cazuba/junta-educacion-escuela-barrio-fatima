@@ -9,9 +9,6 @@ import Api from '@modules/api'
 import { ORDERS_ENDPOINT } from '@modules/endpoints'
 
 export const schema = Yup.object({
-  // orderId: Yup.string('N. Order')
-  //   .min(1, 'N. Orden invalido')
-  //   .required('N. Orden es requerido'),
   date: Yup.date().required('La fecha de compra es requerida'),
   name: Yup.string('Razón Social / Nombre y Apellidos').required(
     'Razón social o Nombre y apellidos es requerido'
@@ -36,7 +33,7 @@ export const onSubmit = (showMessage, hideMessage) => (
     total: undefined
   }
   formValues.items = formValues.items.map(item => {
-    delete item.totalvalue
+    delete item.price
     return item
   })
   const orders = new Api()

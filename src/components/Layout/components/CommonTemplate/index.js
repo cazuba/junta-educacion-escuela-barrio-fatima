@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { node, bool } from 'prop-types'
 
+import Box from '@material-ui/core/Box'
 import Container from '@material-ui/core/Container'
 import withStyles from '@material-ui/core/styles/withStyles'
 
@@ -15,12 +16,14 @@ const Layout = ({ showBreadcrumbs, fullWidth, children, ...rest }) => {
   const [isOpen, setIsOpen] = useState(false)
   return (
     <>
-      <Menu
-        isOpen={isOpen}
-        handleCloseDrawer={() => setIsOpen(false)}
-        handleOpenDrawer={() => setIsOpen(true)}
-      />
-      <Navigation handleOpenDrawer={() => setIsOpen(true)} />
+      <Box displayPrint="none">
+        <Menu
+          isOpen={isOpen}
+          handleCloseDrawer={() => setIsOpen(false)}
+          handleOpenDrawer={() => setIsOpen(true)}
+        />
+        <Navigation handleOpenDrawer={() => setIsOpen(true)} />
+      </Box>
       {fullWidth ? (
         <Content
           showBreadcrumbs={showBreadcrumbs}
