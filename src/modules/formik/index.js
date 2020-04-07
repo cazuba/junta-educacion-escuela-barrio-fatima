@@ -26,5 +26,11 @@ export const useCommonStyles = makeStyles(theme => ({
   },
   recordAction: {
     marginRight: theme.spacing(1)
+  },
+  paperPrint: {
+    '@media print': {
+      border: 0,
+      boxShadow: 'none'
+    }
   }
 }))
