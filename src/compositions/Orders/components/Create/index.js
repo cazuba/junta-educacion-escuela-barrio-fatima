@@ -10,8 +10,8 @@ import Form from './components/DetailsForm'
 
 const breadcrumbs = [
   { url: '/welcome', text: 'Inicio' },
-  { url: '/orders', text: 'Orders' },
-  { url: '/orders/', text: `Order #` }
+  { url: '/orders/', text: `Orders` },
+  { url: '/orders/create', text: `Create` }
 ]
 
 const useStyles = makeStyles(theme => ({
@@ -21,42 +21,36 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const renderElement = (classes, id) => (
+const renderElement = (classes) => (
   <Paper className={classes.root} elevation={2}>
     <Box my={2}>
       <Typography component="h1" variant="h5" align="left">
-        Orden de Compra # {id}
+        Nueva Orden de Compra
       </Typography>
     </Box>
-    {id && <Form id={id} />}
+    <Form />
   </Paper>
 )
 
-const OrdersDetails = ({ id, withLayout }) => {
+const Create = ({ withLayout }) => {
   const classes = useStyles()
   return withLayout ? (
     <Layout
-      breadcrumbs={breadcrumbs.map((item, index) =>
-        index === breadcrumbs.length - 1
-          ? { ...item, text: `${item.text}${id}` }
-          : item
-      )}
+      breadcrumbs={breadcrumbs}
     >
       <SEO title="Order details" />
-      {renderElement(classes, id)}
+      {renderElement(classes)}
     </Layout>
   ) : (
-    renderElement(classes, id)
+    renderElement(classes)
   )
 }
-OrdersDetails.propTypes = {
-  id: oneOfType([number, string]),
+Create.propTypes = {
   withLayout: bool
 }
 
-OrdersDetails.defaultProps = {
-  id: null,
+Create.defaultProps = {
   withLayout: true
 }
 
-export default OrdersDetails
+export default Create

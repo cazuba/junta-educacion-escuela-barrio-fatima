@@ -1,8 +1,6 @@
 import React from 'react'
 import { oneOf } from 'prop-types'
-
-// contexts
-import { NotificationsProvider } from '@contexts/Notifications'
+import { SnackbarProvider } from 'notistack';
 
 // components
 import AuthLayout from './components/LoginTemplate'
@@ -18,7 +16,12 @@ const TemplatesMap = {
 
 const Layout = ({ template, ...props }) => {
   const renderLayout = TemplatesMap[template] || TemplatesMap[COMMON_TEMPLATE]
-  return <NotificationsProvider>{renderLayout(props)}</NotificationsProvider>
+  return <SnackbarProvider maxSnack={2}
+  anchorOrigin={{
+    vertical: 'top',
+    horizontal: 'center'
+  }}
+  autoHideDuration={3000}>{renderLayout(props)}</SnackbarProvider>
 }
 
 Layout.propTypes = {

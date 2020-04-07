@@ -1,5 +1,4 @@
-import React, { useContext } from 'react'
-import { number, string, oneOfType } from 'prop-types'
+import React from 'react'
 import { Formik, Form, FieldArray } from 'formik'
 import {
   Button,
@@ -15,9 +14,7 @@ import {
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import AddIcon from '@material-ui/icons/AddCircle'
 import RemoveIcon from '@material-ui/icons/RemoveCircle'
-
-// contexts
-import { NotificationsContext } from '@contexts/Notifications'
+import { useSnackbar } from 'notistack'
 
 // components
 import DateTime from '@components/DateTime'
@@ -30,21 +27,21 @@ import { schema, onSubmit } from './modules/helpers'
 const ITEM_HEIGHT = 48
 const FIXED_FEES = 0.13
 const ItemModel = {
-  quantity: 0,
+  qty: 0,
   unit: '',
-  exempt: false,
-  unitprice: 0,
-  totalvalue: 0
+  description: '',
+  tax: false,
+  unitPrice: 0,
+  price: 0
 }
 
-const DetailsForm = ({ id, ...props }) => {
-  const { showMessage, hideMessage } = useContext(NotificationsContext)
+const DetailsForm = props => {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const model = {
-    orderId: id,
+    orderId: null,
     date: new Date(),
-    name: 'Order Test',
-    condition: 'Proforma',
-    description: 'Lorem ipsum dolor sit amet consectetum',
+    name: null,
+    condition: null,
     items: [ItemModel],
     subtotal: 0,
     discount: 0,
@@ -79,12 +76,16 @@ const DetailsForm = ({ id, ...props }) => {
   function calculateTotals(values, setFieldValue) {
     let fees = 0
     let subtotal = values.items.reduce((accumulate, curr) => {
-      const imp_percentage = Boolean(curr.exempt) ? 0 : FIXED_FEES
-      const imp_amount = curr.totalvalue * imp_percentage
+      const imp_percentage = Boolean(curr.tax) ? 0 : FIXED_FEES
+      const imp_amount = curr.price * imp_percentage
       fees += imp_amount
-      return accumulate + curr.totalvalue
+      return accumulate + curr.price
     }, 0)
-    const total = subtotal + fees
+    subtotal = subtotal < 0 ? 0 : subtotal
+    fees = fees < 0 ? 0 : fees
+    let total = subtotal + fees
+    total = total - (values.discount || 0)
+    total = total < 0 ? 0 : total
     setFieldValue('subtotal', useFormat(subtotal, MONEY))
     setFieldValue('fees', useFormat(fees, MONEY))
     setFieldValue('total', useFormat(total, MONEY))
@@ -99,9 +100,9 @@ const DetailsForm = ({ id, ...props }) => {
   ) {
     return function(event) {
       const { value } = event.target || {}
-      const totalvalue = item.unitprice * value
-      setFieldValue(`items[${index}]totalvalue`, totalvalue)
-      values.items[index].totalvalue = totalvalue
+      const price = item.unitPrice * value
+      setFieldValue(`items[${index}]price`, price)
+      values.items[index].price = price
       calculateTotals(values, setFieldValue)
       return handleChange(event)
     }
@@ -116,9 +117,9 @@ const DetailsForm = ({ id, ...props }) => {
   ) {
     return function(event) {
       const { value } = event.target || {}
-      const totalvalue = item.quantity * value
-      setFieldValue(`items[${index}]totalvalue`, totalvalue)
-      values.items[index].totalvalue = totalvalue
+      const price = item.qty * value
+      setFieldValue(`items[${index}]price`, price)
+      values.items[index].price = price
       calculateTotals(values, setFieldValue)
       return handleChange(event)
     }
@@ -133,7 +134,20 @@ const DetailsForm = ({ id, ...props }) => {
 
   function handleChangeCheckbox(values, index, setFieldValue, handleChange) {
     return function(event, checked) {
-      values.items[index].exempt = checked
+      values.items[index].tax = checked
+      calculateTotals(values, setFieldValue)
+      return handleChange(event)
+    }
+  }
+
+  function handleChangeDiscount(
+    values,
+    setFieldValue,
+    handleChange
+  ) {
+    return function(event) {
+      const { value } = event.target || {}
+      values.discount = value
       calculateTotals(values, setFieldValue)
       return handleChange(event)
     }
@@ -142,7 +156,7 @@ const DetailsForm = ({ id, ...props }) => {
     <Formik
       initialValues={model}
       validationSchema={schema}
-      onSubmit={onSubmit(showMessage, hideMessage)}
+      onSubmit={onSubmit(enqueueSnackbar, closeSnackbar)}
     >
       {({
         values,
@@ -239,17 +253,17 @@ const DetailsForm = ({ id, ...props }) => {
                           <Grid item xs={12} md={1}>
                             <TextField
                               className={classes.textField}
-                              id="quantity"
-                              name={`items[${index}]quantity`}
+                              id="qty"
+                              name={`items[${index}]qty`}
                               type="number"
                               helperText={
-                                fieldTouched.quantity
-                                  ? errorsField.quantity
+                                fieldTouched.qty
+                                  ? errorsField.qty
                                   : ''
                               }
                               error={
-                                fieldTouched.quantity &&
-                                Boolean(errorsField.quantity)
+                                fieldTouched.qty &&
+                                Boolean(errorsField.qty)
                               }
                               label="Cantidad"
                               InputLabelProps={{
@@ -258,7 +272,7 @@ const DetailsForm = ({ id, ...props }) => {
                               inputProps={{
                                 min: 0
                               }}
-                              value={item.quantity}
+                              value={item.qty}
                               onChange={handleChangeQuantity(
                                 values,
                                 item,
@@ -291,7 +305,7 @@ const DetailsForm = ({ id, ...props }) => {
                                 shrink: true
                               }}
                               label="Unidad"
-                              value={values.unit}
+                              value={item.unit}
                               onChange={handleChange}
                               onBlur={handleBlur}
                               variant="outlined"
@@ -317,7 +331,7 @@ const DetailsForm = ({ id, ...props }) => {
                               InputLabelProps={{
                                 shrink: true
                               }}
-                              defaultValue={item.description}
+                              value={item.description}
                               onChange={handleChange}
                               onBlur={handleBlur}
                               variant="outlined"
@@ -330,14 +344,14 @@ const DetailsForm = ({ id, ...props }) => {
                               control={
                                 <Checkbox
                                   className={classes.textField}
-                                  id="exempt"
-                                  name={`items[${index}]exempt`}
+                                  id="tax"
+                                  name={`items[${index}]tax`}
                                   error={
-                                    fieldTouched.exempt &&
-                                    Boolean(errorsField.exempt)
+                                    fieldTouched.tax &&
+                                    Boolean(errorsField.tax)
                                   }
-                                  defaultChecked={!!item.exempt}
-                                  defaultValue={item.exempt}
+                                  defaultChecked={!!item.tax}
+                                  defaultValue={item.tax}
                                   onChange={handleChangeCheckbox(
                                     values,
                                     index,
@@ -354,17 +368,17 @@ const DetailsForm = ({ id, ...props }) => {
                           <Grid item xs={12} md={2}>
                             <TextField
                               className={classes.textField}
-                              id="unitprice"
-                              name={`items[${index}]unitprice`}
+                              id="unitPrice"
+                              name={`items[${index}]unitPrice`}
                               type="number"
                               helperText={
-                                fieldTouched.unitprice
-                                  ? errorsField.unitprice
+                                fieldTouched.unitPrice
+                                  ? errorsField.unitPrice
                                   : ''
                               }
                               error={
-                                fieldTouched.unitprice &&
-                                Boolean(errorsField.unitprice)
+                                fieldTouched.unitPrice &&
+                                Boolean(errorsField.unitPrice)
                               }
                               label="Precio Unitario"
                               InputLabelProps={{
@@ -373,7 +387,7 @@ const DetailsForm = ({ id, ...props }) => {
                               inputProps={{
                                 min: 0
                               }}
-                              value={item.unitprice}
+                              value={item.unitPrice}
                               onChange={handleChangeUnitPrice(
                                 values,
                                 item,
@@ -394,22 +408,22 @@ const DetailsForm = ({ id, ...props }) => {
                           <Grid item xs={12} md={2}>
                             <TextField
                               className={classes.textField}
-                              id="totalvalue"
-                              name={`items[${index}]totalvalue`}
+                              id="price"
+                              name={`items[${index}]price`}
                               helperText={
-                                fieldTouched.totalvalue
-                                  ? errorsField.totalvalue
+                                fieldTouched.price
+                                  ? errorsField.price
                                   : ''
                               }
                               error={
-                                fieldTouched.totalvalue &&
-                                Boolean(errorsField.totalvalue)
+                                fieldTouched.price &&
+                                Boolean(errorsField.price)
                               }
                               label="Valor Total"
                               InputLabelProps={{
                                 shrink: true
                               }}
-                              value={item.totalvalue}
+                              value={item.price}
                               onChange={handleChange}
                               onBlur={handleBlur}
                               variant="outlined"
@@ -517,8 +531,18 @@ const DetailsForm = ({ id, ...props }) => {
                   min: 0
                 }}
                 value={values.discount}
-                onChange={handleChange}
-                onBlur={handleBlur}
+                // onChange={handleChange}
+                onChange={handleChangeDiscount(
+                  values,
+                  setFieldValue,
+                  handleChange
+                )}
+                onBlur={handleChangeDiscount(
+                  values,
+                  setFieldValue,
+                  handleBlur
+                )}
+                // onBlur={handleBlur}
                 variant="outlined"
                 margin="dense"
                 placeholder="0"
@@ -583,10 +607,6 @@ const DetailsForm = ({ id, ...props }) => {
       )}
     </Formik>
   )
-}
-
-DetailsForm.propTypes = {
-  id: oneOfType([number, string]).isRequired
 }
 
 export default DetailsForm

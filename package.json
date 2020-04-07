@@ -72,6 +72,7 @@
     "gatsby-source-filesystem": "^2.1.5",
     "gatsby-transformer-sharp": "^2.2.3",
     "js-cookie": "^2.2.1",
+    "notistack": "^0.9.9",
     "prop-types": "^15.7.2",
     "qs": "^6.8.0",
     "react": "^16.8.6",

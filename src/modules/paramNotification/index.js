@@ -1,4 +1,4 @@
-import { ERROR, SUCCESS } from '@components/Notification'
+import { ERROR, SUCCESS } from '@modules/constants'
 
 export const INVALID_TOKEN = 'invalid_token'
 export const SESSION_EXPIRED = 'session_expired'

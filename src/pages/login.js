@@ -12,9 +12,8 @@ import SEO from '@components/Seo'
 import withParamNotification from '@hoc/withParamNotification'
 import withoutSession from '@hoc/withoutSession';
 
-const LoginPage = () => (
-  <Layout template={LOGIN_TEMPLATE}>
-    <SEO title="Home" />
+const Content = withParamNotification(() => (
+  <>
     <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
       <Logo />
     </div>
@@ -24,7 +23,14 @@ const LoginPage = () => (
         Olvidaste la contraseña?
       </Link>
     </Box>
+  </>
+))
+
+const LoginPage = () => (
+  <Layout template={LOGIN_TEMPLATE}>
+    <SEO title="Home" />
+    <Content />
   </Layout>
 )
 
-export default withoutSession(withParamNotification(LoginPage))
+export default withoutSession(LoginPage)

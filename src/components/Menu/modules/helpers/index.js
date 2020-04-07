@@ -10,7 +10,7 @@ export const getMainMenu = () => [
   {
     displayName: 'Nueva orden',
     icon: <CreatePurchaseOrder />,
-    url: '/new-order'
+    url: '/orders/create'
   },
   {
     displayName: 'Archivo de Ordenes',

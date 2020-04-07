@@ -20,7 +20,7 @@ export const onClientEntry = () => {
   axios.interceptors.response.use(
     res => res,
     err => {
-      const { status, config } = err.response
+      const { status, config } = err.response || {}
       const { method } = config || { method: '' }
 
       switch (status) {
@@ -32,7 +32,7 @@ export const onClientEntry = () => {
             navigate('/404')
           }
           break
-        default:
+        default: break
       }
 
       return Promise.reject(err)
