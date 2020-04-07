@@ -14,7 +14,7 @@ const Content = ({ showBreadcrumbs, breadcrumbs, children }) => (
     <Grid container direction="column">
       {showBreadcrumbs && (
         <Grid item>
-          <Box mt={2}>
+          <Box mt={2} displayPrint="none">
             <Breadcrumbs aria-label="Breadcrumb">
               {breadcrumbs.map((item, index) => (
                 <Fragment key={index}>

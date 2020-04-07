@@ -69,7 +69,6 @@ const toMoney = (
 ) => new Intl.NumberFormat(config.lang, config.format).format(amount)
 
 const useFormat = (amount, opts) => {
-  if (!amount) return 0
   let config = { ...defaultOpts }
   if (typeof opts === 'string') {
     config['type'] = opts
@@ -89,6 +88,7 @@ const useFormat = (amount, opts) => {
       formattedValue = toFixed(amount, config)
       break
     case GROUP_DIGITS:
+      if (!amount) return 0
       formattedValue = toGroupDigits(amount, config)
       break
     case MONEY:
@@ -96,6 +96,7 @@ const useFormat = (amount, opts) => {
       break
     case CURRENCY:
     default:
+      if (!amount) return 0
       formattedValue = toCurrency(amount, config)
       break
   }

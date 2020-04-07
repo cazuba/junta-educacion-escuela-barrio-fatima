@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import dayjs from 'dayjs'
 import { array, number, func, string, node } from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
@@ -59,7 +60,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function Table ({
+export default function Table({
   rows,
   rowsPerPage,
   title,
@@ -149,16 +150,14 @@ export default function Table ({
                         key={row._id}
                         selected={isItemSelected}
                       >
-                        <TableCell
-                          component="th"
-                          id={labelId}
-                          scope="row"
-                        >
+                        <TableCell component="th" id={labelId} scope="row">
                           {row.orderNumber}
                         </TableCell>
                         <TableCell align="left">{row.socialName}</TableCell>
                         <TableCell align="left">{row.condition}</TableCell>
-                        <TableCell align="left">{row.boughtDate}</TableCell>
+                        <TableCell align="left">
+                          {dayjs(row.boughtDate).format('YYYY-MM-DD')}
+                        </TableCell>
                         <TableCell align="right">
                           <EnhancedTableActions id={row._id} />
                         </TableCell>
@@ -172,7 +171,11 @@ export default function Table ({
                   }}
                 >
                   <TableCell colSpan={7}>
-                    <Typography align="center" color="textSecondary" variant="subtitle2">
+                    <Typography
+                      align="center"
+                      color="textSecondary"
+                      variant="subtitle2"
+                    >
                       {noResults}
                     </Typography>
                   </TableCell>
